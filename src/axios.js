@@ -29,3 +29,25 @@ export const postRequest = async (url, data, options) => {
   instance.defaults.headers["Content-Type"] = "application/json";
   return response;
 };
+// Function to fetch all products
+export const fetchAllProducts = async () => {
+  try {
+    // Fetch all products
+    const response = await getRequest("/products");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    throw error;
+  }
+};
+// Function to fetch  products by ID
+
+export const fetchProductById = async (id) => {
+  try {
+    const response = await getRequest(`/product/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching product with ID ${id}:`, error);
+    throw error;
+  }
+};
