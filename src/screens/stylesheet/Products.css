@@ -1,4 +1,4 @@
-/* ProductList.css */
+/* =======ProductList======= */
 .product-grid {
   display: grid;
   grid-gap: 20px;
@@ -27,7 +27,7 @@
 .product-card {
   margin-bottom: 20px;
   cursor: pointer;
-  padding: 20px; /* Added padding */
+  padding: 20px;
 }
 
 .product-card:hover {
@@ -68,7 +68,6 @@
 }
 
 /* ==========ProductDetail== */
-/* ProductDetail.css */
 
 /* Center the container */
 .product-detail-container {
@@ -146,22 +145,30 @@
     margin-bottom: 2rem;
   }
 }
-/* ======= need to fix more
- */
-.product-skeleton {
-  display: flex;
-  align-items: flex-start;
-  width: 100%;
+
+/* ======= ProductSkeleton ======= */
+.product-card-skeleton {
+  margin-bottom: 20px;
+  padding: 20px;
 }
 
-.product-image-skeleton {
-  flex: 0 0 40%;
-  /* margin-right: 2rem; */
+.product-card-image {
+  object-fit: cover;
 }
 
-.product-details-skeleton {
-  flex: 1;
+.product-card-body {
+  padding: 15px;
 }
+
+.product-card-title {
+  margin-bottom: 10px;
+}
+
+.product-card-text {
+  color: #666;
+  margin-bottom: 5px;
+}
+
 /* ==========Add Product======= */
 
 .add-product {

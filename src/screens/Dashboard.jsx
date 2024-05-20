@@ -1,69 +1,132 @@
-import React, { useState, useEffect } from "react";
-import { getRequest, postRequest } from "../axios"; // Assuming you have a postRequest method defined similarly to getRequest
+import React, { useEffect, useState } from "react";
+import "./stylesheet/Dashboard.css";
+import { getRequest } from "../axios";
+import {
+  Container,
+  Table,
+  Button,
+  FormControl,
+  InputGroup,
+  Dropdown,
+  DropdownButton,
+} from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faSort,
+  faSortUp,
+  faSortDown,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Dashboard = () => {
   const [products, setProducts] = useState([]);
-  const [sortedBy, setSortedBy] = useState(null); // 'id', 'price', 'name'
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [sortConfig, setSortConfig] = useState({ key: "", direction: "" });
 
- 
   useEffect(() => {
     getRequest("/dashboard")
       .then((response) => {
-        console.log("Fetched Products in Dashboard:", response.data); // Log the fetched products
-
-        setProducts(
-          response.data.products)
-        );
-        setLoading(false);
+        console.log("Fetched Products:", response.data); // Debugging log
+        setProducts(response.data);
+        setFilteredProducts(response.data);
       })
       .catch((error) => console.error("Error fetching products:", error));
   }, []);
 
-  const handleSort = (criteria) => {
-    let sortedProducts = [...products];
-    if (criteria === "id") {
-      sortedProducts.sort((a, b) => a.id - b.id);
-    } else if (criteria === "price") {
-      sortedProducts.sort((a, b) => a.selling_price - b.selling_price);
-    } else if (criteria === "name") {
-      sortedProducts.sort((a, b) => a.name.localeCompare(b.name));
+  const handleSort = (key) => {
+    let direction = "ascending";
+    if (sortConfig.key === key && sortConfig.direction === "ascending") {
+      direction = "descending";
     }
-    setSortedBy(criteria);
-    setProducts(sortedProducts);
+    setSortConfig({ key, direction });
+
+    const sortedProducts = [...filteredProducts].sort((a, b) => {
+      if (key === "id" || key === "selling_price") {
+        if (direction === "ascending") {
+          return a[key] - b[key];
+        } else {
+          return b[key] - a[key];
+        }
+      } else {
+        if (a[key] < b[key]) {
+          return direction === "ascending" ? -1 : 1;
+        }
+        if (a[key] > b[key]) {
+          return direction === "ascending" ? 1 : -1;
+        }
+        return 0;
+      }
+    });
+
+    setFilteredProducts(sortedProducts);
   };
 
-  const handleCheck = (productId) => {
-    const updatedProducts = products.filter(
-      (product) => product.id !== productId
+  const handleRemove = (id) => {
+    const updatedProducts = filteredProducts.filter(
+      (product) => product.id !== id
     );
-    setProducts(updatedProducts);
+    setFilteredProducts(updatedProducts);
   };
 
   const handleSearch = (event) => {
-    setSearchTerm(event.target.value);
+    const term = event.target.value.toLowerCase();
+    setSearchTerm(term);
+    const filtered = products.filter(
+      (product) =>
+        product.name.toLowerCase().includes(term) ||
+        product.id.toString().includes(term)
+    );
+    setFilteredProducts(filtered);
   };
 
-  const filteredProducts = products.filter(
-    (product) =>
-      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.id.toString().includes(searchTerm.toLowerCase())
-  );
+  const handleSortChange = (key) => {
+    handleSort(key);
+  };
+
+  const getSortIcon = (key) => {
+    if (sortConfig.key === key) {
+      return sortConfig.direction === "ascending" ? (
+        <FontAwesomeIcon icon={faSortUp} />
+      ) : (
+        <FontAwesomeIcon icon={faSortDown} />
+      );
+    }
+    return <FontAwesomeIcon icon={faSort} />;
+  };
 
   return (
-    <div className="container">
-      <input
-        type="text"
-        placeholder="Search by name or ID"
-        value={searchTerm}
-        onChange={handleSearch}
-      />
-      <table className="table">
+    <Container>
+      <h1 className="dashboard-heading">Product Dashboard</h1>
+      <InputGroup className="mb-3">
+        <FormControl
+          placeholder="Search by Name or ID"
+          value={searchTerm}
+          onChange={handleSearch}
+        />
+        <DropdownButton
+          as={InputGroup.Append}
+          variant="outline-secondary"
+          title="Sort By"
+          id="input-group-dropdown-2"
+          onSelect={handleSortChange}
+        >
+          <Dropdown.Item eventKey="id">Product ID</Dropdown.Item>
+          <Dropdown.Item eventKey="name">Name</Dropdown.Item>
+          <Dropdown.Item eventKey="selling_price">Selling Price</Dropdown.Item>
+        </DropdownButton>
+      </InputGroup>
+      <Table striped bordered hover>
         <thead>
           <tr>
-            <th onClick={() => handleSort("id")}>Product ID</th>
-            <th onClick={() => handleSort("price")}>Selling Price</th>
-            <th onClick={() => handleSort("name")}>Product Name</th>
+            <th onClick={() => handleSort("id")}>
+              Product ID {getSortIcon("id")}
+            </th>
+            <th onClick={() => handleSort("name")}>
+              Name {getSortIcon("name")}
+            </th>
+            <th onClick={() => handleSort("selling_price")}>
+              Selling Price {getSortIcon("selling_price")}
+            </th>
             <th>Action</th>
           </tr>
         </thead>
@@ -71,16 +134,21 @@ const Dashboard = () => {
           {filteredProducts.map((product) => (
             <tr key={product.id}>
               <td>{product.id}</td>
-              <td>{product.selling_price}</td>
               <td>{product.name}</td>
+              <td>{product.selling_price}</td>
               <td>
-                <button onClick={() => handleCheck(product.id)}>Check</button>
+                <Button
+                  variant="danger"
+                  onClick={() => handleRemove(product.id)}
+                >
+                  Delete
+                </Button>
               </td>
             </tr>
           ))}
         </tbody>
-      </table>
-    </div>
+      </Table>
+    </Container>
   );
 };
 

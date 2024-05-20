@@ -29,6 +29,7 @@ export const postRequest = async (url, data, options) => {
   instance.defaults.headers["Content-Type"] = "application/json";
   return response;
 };
+
 // Function to fetch all products
 export const fetchAllProducts = async () => {
   try {
@@ -40,8 +41,8 @@ export const fetchAllProducts = async () => {
     throw error;
   }
 };
-// Function to fetch  products by ID
 
+// Function to fetch  products by ID
 export const fetchProductById = async (id) => {
   try {
     const response = await getRequest(`/product/${id}`);

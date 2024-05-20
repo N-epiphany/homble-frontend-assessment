@@ -10,10 +10,14 @@ const AddProductModal = ({ show, handleClose, handleAddProduct }) => {
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setNewProduct({ ...product, [name]: value });
+    const updatedProduct = setNewProduct({ ...product, [name]: value });
+
+    console.log("Updated Product Data:", updatedProduct);
   };
 
   const handleSubmit = () => {
+    console.log("Submitting Product Data:", product);
+
     handleAddProduct(product);
     setNewProduct({ name: "", description: "", allergen_info: "" });
   };

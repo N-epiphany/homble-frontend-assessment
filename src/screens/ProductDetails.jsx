@@ -1,40 +1,35 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { getRequest } from "../axios";
+import React from "react";
 import { Container, Image, Accordion } from "react-bootstrap";
+import { useParams } from "react-router-dom";
+import useProductDetail from "../components/hooks/useProductDetail"; // Assuming hook location
 
 const ProductDetail = () => {
   const { id } = useParams();
-  const [product, setProduct] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [descriptionExpanded, setDescriptionExpanded] = useState(false);
-  const [allergenExpanded, setAllergenExpanded] = useState(false);
-  const [usageExpanded, setUsageExpanded] = useState(false);
-
-  useEffect(() => {
-    const fetchProductDetails = async () => {
-      if (!id) {
-        setError("Product ID is missing");
-        return;
-      }
-      try {
-        setLoading(true);
-        const response = await getRequest(`/products/${id}`);
-        setProduct(response.data);
-      } catch (error) {
-        console.error("Error fetching product details:", error);
-        setError("Failed to fetch product details");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProductDetails();
-  }, [id]);
+  const {
+    product,
+    loading,
+    error,
+    descriptionExpanded,
+    setDescriptionExpanded,
+    allergenExpanded,
+    setAllergenExpanded,
+    usageExpanded,
+    setUsageExpanded,
+  } = useProductDetail(id);
 
   if (loading) {
     return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return (
+      <Container
+        className="d-flex justify-content-center align-items-center"
+        style={{ minHeight: "100vh" }}
+      >
+        <h3>{error}</h3>
+      </Container>
+    );
   }
 
   if (!product) {
@@ -47,6 +42,7 @@ const ProductDetail = () => {
       </Container>
     );
   }
+
   return (
     <Container className="product-detail-container">
       <div className="product-details-wrapper">
@@ -81,6 +77,7 @@ const ProductDetail = () => {
               <Accordion.Body>{product.cooking_instruction}</Accordion.Body>
             </Accordion.Item>
           </Accordion>
+
           <p className="product-price">Price: ₹{product.selling_price}</p>
         </div>
       </div>
