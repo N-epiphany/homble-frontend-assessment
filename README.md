@@ -1,99 +1,98 @@
-# Homble Frontend Assessment
+# Homble Frontend Assessment Project
 
-Welcome to the repository for the frontend engineer assessment at Homble. Visit us at [Homble](http://www.homble.in).
+Welcome to the repository for the frontend engineer assessment at Homble. This project showcases a React-based application designed to manage products, implementing various frontend tasks and features as per the assessment requirements.
+
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [Assessment Tasks Completed](#assessment-tasks-completed)
+  - [Task 1: Product Listing Page](#task-1-product-listing-page)
+  - [Task 2: Individual Product Details](#task-2-individual-product-details)
+  - [Task 3: Code Improvement](#task-3-code-improvement)
+  - [Optional Task: Bar Raiser - Dashboard](#optional-task-bar-raiser-dashboard)
+- [Project Structure](#project-structure)
+- [Additional Notes](#additional-notes)
 
 ## Introduction
 
-We are seeking front-end developers experienced in React. Ideal candidates should have a solid understanding of React principles, including components, state management, lifecycle methods, and API interactions.
+This repository contains the solution for the Homble frontend engineer assessment. The project leverages React for frontend development, emphasizing functionality, usability, and best practices in React application development.
 
-## Instructions
+## Getting Started
 
-1. Clone this repository into your own new private repository (make sure you are using node version > 18).
-2. Run `npm install` to install dependencies.
-3. Begin the assessment by reviewing the Overview section for a general understanding of the existing code base.
-4. The server might have cold start issue and stops after a period of inactivity. So the first request might take a min to process.
-5. Commit your code progressively to your repository.
-6. Once complete, add `ashishHomble` as a collaborator to your repository and notify us via email at tech@homble.in.
+### Prerequisites
 
-## Expectations
+- Node.js > 18
+- npm or yarn
 
-- Use React and Bootstrap(if required) for the development.
-- Focus on usability rather than aesthetics.
-- Explain your work and be prepared to make on-the-fly adjustments during reviews.
+### Installation
 
-## Overview of the Repo
+1. Clone the repository into your local environment:
 
-This repo uses Create React App and includes essential setups:
+   ```bash
+   git clone https://github.com/N-epiphany/homble-frontend-assessment
+   ```
 
-- **AppRouter.jsx**: Manages all the routes.
-- **Screens and Components**: Directories for adding screens and components.
-- **axios.js**: Contains API endpoints info and has basic axios setup.
+2. Install dependencies:
 
-## Assessment Tasks
+   ```bash
+   npm install
+   ```
+
+3. Start the development server:
+   ```bash
+   npm start
+   ```
+   The application will be available at `http://localhost:3000`.
+
+## Assessment Tasks Completed
 
 ### Task 1: Product Listing Page
 
-**Objective**: Create a page to display a list of products sorted by price.
-
-**Details**:
-
-1. Fetch product data from the server using the endpoint: `/products`
-2. Sort the products based on their selling price.
-3. Display the products in a responsive grid:
-
-   - 3 columns on large screens
-   - 2 columns on medium screens
-   - 1 column on mobile devices
-
-4. Use skeleton components while products are loading
-5. On Click of the product tile it should redirect to the specific product page.
-6. Create an “Add Product Button”:
-7. Opens a modal with 3 input fields and “Add” button:
-
-   - Product Name
-   - Product Description
-   - Product Allergen Info
-   - On Click “Add” - Should submit a post request to endpoint: `/products`
+- Fetched product data from `/products` endpoint.
+- Implemented sorting by selling price.
+- Displayed products in a responsive grid.
+- Implemented navigation to individual product pages on tile click.
+- Added an "Add Product" modal for creating new products.
 
 ### Task 2: Individual Product Details
 
-**Objective**: Build a product details page.
-
-**Details**:
-
-1. Fetch individual product data from the server using the endpoint: `/products/:id`.
-2. Display product information including product name, price, description, allergens, and usage instructions.
-3. Implement expandable/collapsible sections for the description, allergen information, and usage (all sections should be able to expand/collapse independently).
-4. Show a “Loading…” text when details are loading.
+- Fetched individual product data from `/products/:id`.
+- Displayed product information including name, price, description, allergens, and usage instructions.
+- Implemented expandable/collapsible sections for description, allergen information, and usage.
+- Showed a "Loading…" message while details were loading.
 
 ### Task 3: Code Improvement
 
-**Objective**: Optimize and enhance the resilience of your implementation.
+- Developed custom hooks for fetching data (`useProductDetail`) and (`useProductList`).
+- Handled errors with appropriate messages
+- Memoized computed values to optimize performance.
 
-**Details**:
+### Optional Task: Bar Raiser - Dashboard
 
-1. Develop a custom hook for fetching data from the server and sending requests.
-2. Ensure you handle errors—simply show a text message: “Something went wrong.”
-3. Memoize the computed values.
+- Created a dashboard with a table interface.
+- Fetched product list from `/dashboard`.
+- Implemented sorting functionality by product ID, selling price, or name.
+- Enabled a "Check" button for each row to remove products dynamically.
+- Added a search bar supporting "contains" search for product name or ID.
 
-### Bar Raiser: Dashboard
+## Project Structure
 
-This is optional but would help us understand your current proficiency level, so do give it a try anyways.
+- **`public/`**: Contains the `index.html` and other static assets.
+- **`src/`**: Main source code directory.
+  - **`components/`**: Reusable React components.
+  - **`components/hooks`**: Reusable React hooks.
+  - **`screens/`**: Individual screens/pages of the application.
+  - **`screens/stylesheet`**: css files for the screens/pages
+  - **`axios.js`**: Configuration for Axios HTTP client.
+  - **`AppRouter.jsx`**: Manages routing within the application.
 
-**Objective:** Creating a dashboard (a table interface) for managing products.
+## Additional Notes
 
-**Details:**
-
-- Get list of products with ids, selling price and name from endpoint `/dashboard`
-- Create a table like interface with headings and buttons to sort the data.
-- Implement sorting functionality that allows sorting by product ID, selling price, or name.
-- Enable a Check button
-  - Provide a "Check" button for each element (row).
-  - Clicking this button should remove the element from the page without reloading, allowing for continuous operations.
-- Add a search bar on top of table that supports "contains" search for product name or ID.
-
-## Submission
-
-Ensure you've pushed all changes and added the repository owner as a collaborator for evaluation.
-
-Good luck!
+- The application is built using Create React App and utilizes Axios for API interactions.
+- Focus was placed on functionality and usability rather than aesthetic design.
+- Code is structured to be modular and scalable, following React best practices.
+- it is also hosted at [vercel](https://homble-frontend-assessment-two.vercel.app/)
+- For any issues or questions, please contact bhavya.srivastava1400@gmail.com

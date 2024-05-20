@@ -45,7 +45,7 @@ export const fetchAllProducts = async () => {
 // Function to fetch  products by ID
 export const fetchProductById = async (id) => {
   try {
-    const response = await getRequest(`/product/${id}`);
+    const response = await getRequest(`/products/${id}`);
     return response.data;
   } catch (error) {
     console.error(`Error fetching product with ID ${id}:`, error);

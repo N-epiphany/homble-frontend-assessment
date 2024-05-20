@@ -45,7 +45,7 @@ const ProductList = () => {
           <Card
             key={product.id}
             className="product-card"
-            onClick={() => (window.location.href = `/product/${product.id}`)}
+            onClick={() => (window.location.href = `/products/${product.id}`)}
           >
             <Card.Img variant="top" src={product.productImage} />
             <Card.Body>
